@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # dm-data-generalizer
 Replaces specific data values with more general categories (e.g., replacing specific job titles with broader roles, or age with age ranges). - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values
 
