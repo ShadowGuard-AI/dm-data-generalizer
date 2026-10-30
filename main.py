@@ -1,6 +1,6 @@
 import argparse
 import logging
-import random
+import sys
 import pandas as pd
 from faker import Faker
 
@@ -22,6 +22,7 @@ JOB_TITLE_MAPPING = {
 }
 
 AGE_RANGES = [
+    (0, 17),
     (18, 25),
     (26, 35),
     (36, 45),
@@ -29,7 +30,8 @@ AGE_RANGES = [
     (56, 65),
     (66, 75),
     (76, 85),
-    (86, 95)
+    (86, 95),
+    (96, 120)
 ]
 
 def setup_argparse():
@@ -92,10 +94,18 @@ def generalize_city_to_state(city):
     Returns:
         str: The state name, or None if the city is not found.
     """
+    # No gazetteer ships with Faker, so the state cannot be the true state
+    # of the named city. What generalization does require is consistency:
+    # the same city must map to the same broader region in every row, or
+    # the column stays joinable in inconsistent ways and identical inputs
+    # disagree. Seeding a local Faker with a stable hash of the city name
+    # gives one fixed, arbitrary state per city, across rows and runs.
+    # (The built-in hash() cannot be used: it is salted per process.)
+    import zlib
     fake = Faker()
+    fake.seed_instance(zlib.crc32(city.encode("utf-8")))
     try:
-        state = fake.state() # Simple example. For more robust city->state, a mapping dict or API call is recommended.
-        return state
+        return fake.state()
     except Exception as e:
         logging.error(f"Failed to generalize city {city} to state: {e}")
         return None
@@ -139,10 +149,13 @@ def main():
 
     except FileNotFoundError:
         logging.error(f"Input file not found: {args.input_file}")
+        sys.exit(1)
     except ValueError as e:
         logging.error(f"ValueError: {e}")
+        sys.exit(1)
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
