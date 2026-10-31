@@ -1,8 +1,8 @@
 import argparse
 import logging
 import sys
+from pathlib import Path
 import pandas as pd
-from faker import Faker
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -20,6 +20,69 @@ JOB_TITLE_MAPPING = {
     "Sales Representative": "Sales Professional",
     "Marketing Manager": "Marketing Professional"
 }
+
+# City to state lookup for well-known US cities. Every pairing here is
+# a plain fact checked against the city itself, not a generated value.
+# A city that is not in this table generalizes to "Unknown" instead of
+# being given a state it may not be in; see generalize_city_to_state.
+CITY_TO_STATE = {
+    "new york": "New York",
+    "new york city": "New York",
+    "los angeles": "California",
+    "chicago": "Illinois",
+    "houston": "Texas",
+    "phoenix": "Arizona",
+    "philadelphia": "Pennsylvania",
+    "san antonio": "Texas",
+    "san diego": "California",
+    "dallas": "Texas",
+    "austin": "Texas",
+    "jacksonville": "Florida",
+    "fort worth": "Texas",
+    "san jose": "California",
+    "columbus": "Ohio",
+    "charlotte": "North Carolina",
+    "indianapolis": "Indiana",
+    "san francisco": "California",
+    "seattle": "Washington",
+    "denver": "Colorado",
+    "washington": "District of Columbia",
+    "nashville": "Tennessee",
+    "oklahoma city": "Oklahoma",
+    "el paso": "Texas",
+    "boston": "Massachusetts",
+    "las vegas": "Nevada",
+    "portland": "Oregon",
+    "detroit": "Michigan",
+    "louisville": "Kentucky",
+    "memphis": "Tennessee",
+    "milwaukee": "Wisconsin",
+    "baltimore": "Maryland",
+    "albuquerque": "New Mexico",
+    "tucson": "Arizona",
+    "sacramento": "California",
+    "atlanta": "Georgia",
+    "kansas city": "Missouri",
+    "miami": "Florida",
+    "minneapolis": "Minnesota",
+    "cleveland": "Ohio",
+    "tampa": "Florida",
+    "st. louis": "Missouri",
+    "st louis": "Missouri",
+    "pittsburgh": "Pennsylvania",
+    "cincinnati": "Ohio",
+    "orlando": "Florida",
+    "salt lake city": "Utah",
+    "madison": "Wisconsin",
+    "raleigh": "North Carolina",
+    "oakland": "California",
+    "fresno": "California",
+}
+
+# Cities seen in the current run that the lookup does not know, in the
+# order they were seen. main reads this after the city column is applied
+# so the run can warn with the count.
+UNKNOWN_CITIES = []
 
 AGE_RANGES = [
     (0, 17),
@@ -86,29 +149,24 @@ def generalize_age(age):
 
 def generalize_city_to_state(city):
     """
-    Generalizes a city name to its state using Faker.
+    Generalizes a city name to the state that city is in, using the
+    built-in CITY_TO_STATE lookup table.
 
     Args:
         city (str): The city name.
 
     Returns:
-        str: The state name, or None if the city is not found.
+        str: The true state for a city in the lookup table, matched
+        without regard to case or surrounding spaces, or "Unknown" for
+        a city the table does not list. The lookup is a plain table,
+        so the same city maps to the same state on every row and
+        every run.
     """
-    # No gazetteer ships with Faker, so the state cannot be the true state
-    # of the named city. What generalization does require is consistency:
-    # the same city must map to the same broader region in every row, or
-    # the column stays joinable in inconsistent ways and identical inputs
-    # disagree. Seeding a local Faker with a stable hash of the city name
-    # gives one fixed, arbitrary state per city, across rows and runs.
-    # (The built-in hash() cannot be used: it is salted per process.)
-    import zlib
-    fake = Faker()
-    fake.seed_instance(zlib.crc32(city.encode("utf-8")))
-    try:
-        return fake.state()
-    except Exception as e:
-        logging.error(f"Failed to generalize city {city} to state: {e}")
-        return None
+    state = CITY_TO_STATE.get(str(city).strip().lower())
+    if state is None:
+        UNKNOWN_CITIES.append(str(city))
+        return "Unknown"
+    return state
 
 def main():
     """
@@ -116,6 +174,19 @@ def main():
     """
     parser = setup_argparse()
     args = parser.parse_args()
+
+    # The output may not name the input file, in any spelling. Resolved
+    # paths are compared, so a symlink alias is caught as well as the
+    # same string. Refuse before any write.
+    if Path(args.output_file).resolve() == Path(args.input_file).resolve():
+        logging.error("Output file must not be the input file. Choose a different output path.")
+        sys.exit(1)
+
+    # A run that names no column generalizes nothing, so it must not
+    # copy the input to the output under a completion line.
+    if not args.job_title_column and not args.age_column and not args.city_column:
+        print("No generalization column was specified.")
+        sys.exit(1)
 
     try:
         # Read the input CSV file
@@ -141,7 +212,13 @@ def main():
         if args.city_column:
             if args.city_column not in df.columns:
                 raise ValueError(f"City column '{args.city_column}' not found in input file.")
+            UNKNOWN_CITIES.clear()
             df[args.city_column] = df[args.city_column].astype(str).apply(generalize_city_to_state)
+            if UNKNOWN_CITIES:
+                logging.warning(
+                    f"{len(UNKNOWN_CITIES)} row(s) held a city the lookup does not know "
+                    f"and were set to Unknown: {', '.join(sorted(set(UNKNOWN_CITIES)))}"
+                )
 
         # Write the modified DataFrame to the output CSV file
         df.to_csv(args.output_file, index=False)
