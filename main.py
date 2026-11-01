@@ -136,6 +136,9 @@ def generalize_age(age):
         str: The age range the age falls into, or "Unknown" if invalid age.
     """
     try:
+        # int() truncates a float age but rejects a float spelled as
+        # text: 30.9 in a numeric column generalizes as 30, while the
+        # same value read as the string 30.9 lands in Unknown.
         age = int(age)  # Ensure age is an integer
         if not 0 <= age <= 120:  # Basic sanity check
             return "Unknown" # Or raise an Exception
@@ -193,6 +196,10 @@ def main():
         df = pd.read_csv(args.input_file)
 
         # Limit number of rows if specified
+        # A negative count is accepted and means something else
+        # entirely to head: head of minus one is every row but the
+        # last, so a negative limit silently drops tail rows instead
+        # of failing or processing everything.
         if args.num_rows is not None:
             df = df.head(args.num_rows)
 
@@ -200,6 +207,9 @@ def main():
         if args.job_title_column:
             if args.job_title_column not in df.columns:
                 raise ValueError(f"Job title column '{args.job_title_column}' not found in input file.")
+            # The column is stringified first, so an empty cell stops
+            # being empty: it becomes the literal text nan, matches no
+            # mapping, and is written out as the word nan.
             df[args.job_title_column] = df[args.job_title_column].astype(str).apply(generalize_job_title)
 
         # Generalize ages if specified
