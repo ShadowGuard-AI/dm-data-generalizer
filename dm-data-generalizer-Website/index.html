@@ -1,165 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dm Data Generalizer: what it is, how it runs, where it stops</title>
-<meta name="description" content="Dm Data Generalizer is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
-<style>
-:root {
-  --bg: #101214; --panel: #1c1f22; --ink: #eee8dc;
-  --mut: #25292d;
-  --acc: #e8b339; --acc2: #c75432;
-  --line: #1c1f22;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: 'Palatino Linotype', Palatino, serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Menlo', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
-</style>
-</head>
-<body class="layout-term">
-<!-- This page exists for dm-data-generalizer alone: the layout (terminal-frame),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
-<header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Dm Data Generalizer logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Dm Data Generalizer</h1>
-  <p class="mono"><a href="https://github.com/ShadowGuard-AI/dm-data-generalizer">github.com/ShadowGuard-AI/dm-data-generalizer</a></p>
-</header>
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>dm-data-generalizer: The Archivist's Pencil Only Rule</title>
+<style>@font-face{font-family:Disp;src:url("fonts/CaesarDressing-Regular.ttf")}@font-face{font-family:Text;src:url("fonts/Bitter.ttf")}
+body{background:#4a6f9e;font-family:Text,serif;color:#33302a;margin:0}main{max-width:920px;margin:0 auto;padding:28px}
+h1,h2,h3{font-family:Disp,serif;color:#16345e}section{background:#efe3bd;padding:18px 22px;margin:16px 0;border:2px solid #b8923a}
+img{max-width:100%}button{background:#e8d5a3;color:#16345e;border:2px solid #16345e;border-radius:14px;padding:12px 22px;font-family:Disp,serif}
+button:hover{color:#0f2448}button:active{transform:translateY(2px)}button:focus{outline:3px solid #b8923a;outline-offset:3px}
+a{color:#16345e}a::before{content:"\2766  ";color:#a87c4a}a:hover::before{color:#b8923a}
+.label{display:inline-block;border:1px solid #a87c4a;padding:2px 8px;font-size:13px}pre{white-space:pre-wrap;background:#f4eedc;padding:14px}code{font-family:Text,serif}</style></head><body><main>
+<img src="intro-banner.png" alt="Introduction banner: a pencil on a blank handled leaf, gloves folded, drawers ajar, no writing">
+<h1>dm-data-generalizer: The Archivist's Pencil Only Rule</h1>
+<p>Wherever this site gives its own name, it uses the form dm-data-generalizer: The Archivist's Pencil Only Rule, repository first, theme second. The page is a stroll down the reading table, halt by halt.</p>
+<img src="logo.png" alt="Logo: a lone pencil, tip at the lower left, rubber end at the upper right, twine looped once round the shaft"><img src="banner.png" alt="Wordmark banner: the reading chamber with the name lettered on an index card in the foremost drawer">
+<img src="scene.svg" alt="Animated scene in three stripes">
+<div><button type="button">Generalize the Values</button></div>
+<p><span class="label">Rows to Process</span></p>
+<h3>The Output Is Never the Input</h3><h3>Name at Least One Column</h3>
+<section><h2>Halt one: the errand</h2><p>The program replaces specific data values with more general categories: specific job titles give way to broader roles, and an age gives way to age ranges. It belongs with tools designed to generate or mask sensitive data with realistic-looking but meaningless values.</p></section>
+<section><h2>Halt two: fetching, with an advertised repair</h2><p><code>git clone https://github.com/ShadowGuard-AI/dm-data-generalizer</code></p><p>The line above wears a label saying corrected. The address printed inside the README preserves an obsolete house name, and a guest obeying it literally would knock at a stranger's residence. The corrected instruction gives the organisation name with its hyphen, where a hyphen belongs. Nobody passes it off as the printed original.</p></section>
+<section><h2>Halt three: the silhouette of an invocation</h2><p><code>./dm-data-generalizer [params]</code></p><p>That silhouette is all that is shown: executable foremost, square bracketed parameters trailing. The emptiness surrounding it is intentional. Nobody's spreadsheet appears here, nobody's column, nobody's cell, however tiny.</p></section>
+<section><h2>Halt four: the switches in README sequence</h2><p>Help foremost, -h, the switch that prints guidance and quits. Then the occupation column switch, --job_title_column, the name of the job title column to generalize. Then the age column switch, --age_column, the name of the age column to generalize. Then the city column switch, --city_column, the name of the city column to generalize to state, whose entries emerge as states. Lastly the row ceiling switch, --num_rows, the number of rows to process, flagged optional, alongside its printed stipulation that omitting it processes all if not specified, in the README's wording processes all.</p></section>
+<section><h2>Halt five: the destination safeguard</h2><p>The destination cannot coincide with the source, whether spelled identically, disguised behind a ./ prefix, or reached through a symlink. Coincidence triggers refusal at exit 1 ahead of any writing, before anything is written, and the source keeps its prior condition, left untouched.</p></section>
+<section><h2>Halt six: the refusal of an empty errand</h2><p>At minimum one column switch is compulsory. Supply none and the run utters the refusal sentence the README quotes, No generalization column was specified., afterward halting at exit 1 and producing no destination, instead of duplicating the source beneath a success message or copying the input unchanged under a completion line.</p></section>
+<section><h2>Halt seven: the geography</h2><p>A frozen dictionary inside main.py, christened CITY_TO_STATE, couples celebrated United States municipalities with the state each genuinely inhabits, matching regardless of capitalisation and without regard to case, unwavering across rows and repetitions, so the same city maps to the same state on every row and every run. A municipality the dictionary omits becomes Unknown, the log records a warning bearing the tally of rows so treated, with the count of rows set to Unknown, and nobody fabricates a state for an omitted place. No state is ever invented for a place the table does not know. This halt itself names no municipality and no state; the pairings reside in the transcribed record underneath, in the README's exact phrasing.</p></section>
+<section><h2>Halt eight: two copyright facts, kept separate</h2><p>Ahead stands the repository's own document: MIT License, its holder conveyed purely by skeleton: a pen name in front, then a bracketed first name shaved to a single initial, then the account handle at the rear. The initial itself stays sealed and the line is not reproduced.</p><p>Behind it, explicitly tagged a site correction, stands the README's closing sentence respelled using today's hyphenated organisation in place of the obsolete house name the printed sentence uses: Copyright (c) ShadowGuard-AI. Site correction.</p></section>
+<section><h2>The preserved README record</h2><pre>![Banner](banner.png)
 
-<main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/ShadowGuard-AI/dm-data-generalizer">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Dm Data Generalizer is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Dm Data Generalizer: 5 files, 188 counted
-          lines across Python 166, Markdown 20, Text 2. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>main.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/ShadowGuard-AI/dm-data-generalizer.git<br>$ cd dm-data-generalizer</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>main.py</code>, line 35 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>]
+# dm-data-generalizer
+Replaces specific data values with more general categories (e.g., replacing specific job titles with broader roles, or age with age ranges). - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values
 
-def setup_argparse():
-    &quot;&quot;&quot;
-    Sets up the argument parser for the command-line interface.
-    &quot;&quot;&quot;
-    parser = argparse.ArgumentParser(description=&quot;Data Generalization Tool&quot;)
-    parser.add_argument(&quot;input_file&quot;, help=&quot;Path to the input CSV file&quot;)
-    parser.add_argument(&quot;output_file&quot;, help=&quot;Path to the output CSV file&quot;)
-    parser.add_argument(&quot;--job_title_column&quot;, help=&quot;Name of the job title column to generalize&quot;, default=None)
-    parser.add_argument(&quot;--age_column&quot;, help=&quot;Name of the age column to generalize&quot;, default=None)
-    parser.add_argument(&quot;--city_column&quot;, help=&quot;Name of the city column to generalize to state&quot;, default=None) # Example of added feature
-    parser.add_argument(&quot;--num_rows&quot;, type=int, help=&quot;Number of rows to process (optional, processes all if not specified)&quot;, default=None) # New Feature for only processing &#x27;n&#x27; rows
-    return parser
+## Install
+`git clone https://github.com/ShadowStrikeHQ/dm-data-generalizer`
 
-def generalize_job_title(job_title):
-    &quot;&quot;&quot;
-    Generalizes a specific job title to a broader category.
+## Usage
+`./dm-data-generalizer [params]`
 
-    Args:
-        job_title (str): The job title to generalize.</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>main.py</code></td><td>166</td></tr>
-        <tr><td><code>README.md</code></td><td>20</td></tr>
-        <tr><td><code>requirements.txt</code></td><td>2</td></tr>
-        <tr><td><code>banner.png</code></td><td>0</td></tr>
-        <tr><td><code>logo.png</code></td><td>0</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">setup_argparse, generalize_job_title, generalize_age, generalize_city_to_state, main</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/ShadowGuard-AI/dm-data-generalizer/tree/main/dm-data-generalizer-Visuals">dm-data-generalizer-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Dm Data Generalizer">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Dm Data Generalizer">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Dm Data Generalizer">
-        </div>
-      </section>
-    </div>
-  </section>
-</main>
-<footer>
-  <p>Dm Data Generalizer is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
-</body>
-</html>
+## Parameters
+- `-h`: Show help message and exit
+- `--job_title_column`: Name of the job title column to generalize
+- `--age_column`: Name of the age column to generalize
+- `--city_column`: Name of the city column to generalize to state
+- `--num_rows`: Number of rows to process (optional, processes all if not specified)
+
+## Behavior notes
+- The output file may not be the input file. If the resolved output path is the input file, by the same spelling, a `./` alias, or a symlink, the run refuses at exit 1 before anything is written and the input is left untouched.
+- At least one column flag must be given. A run with no column flag prints "No generalization column was specified.", exits 1, and writes no output file, instead of copying the input unchanged under a completion line.
+- The city column is generalized with a built-in lookup table of well-known US cities, so the state written is the state that city is actually in: Chicago becomes Illinois, Houston becomes Texas, Los Angeles becomes California. The table is a fixed list in main.py (CITY_TO_STATE), matched without regard to case, so the same city maps to the same state on every row and every run. A city the table does not list becomes "Unknown", and the run logs a warning with the count of rows set to Unknown. No state is ever invented for a city the table does not know.
+
+## License
+Copyright (c) ShadowStrikeHQ</pre></section>
+</main></body></html>
