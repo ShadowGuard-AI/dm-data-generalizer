@@ -18,14 +18,14 @@ Replaces specific data values with more general categories (e.g., replacing spec
 ![Major separator](sep-heavy.svg)
 
 ## Install
-`git clone https://github.com/ShadowStrikeHQ/dm-data-generalizer`
+`git clone https://github.com/ShadowGuard-AI/dm-data-generalizer`
 
 > Index memorandum: the README fetching line names an obsolete organisation.
 
 ![Minor separator](sep-light.svg)
 
 ## Usage
-`./dm-data-generalizer [params]`
+`python3 main.py input_file output_file [options]`
 
 ![Minor separator](sep-light.svg)
 
@@ -52,7 +52,7 @@ Replaces specific data values with more general categories (e.g., replacing spec
 ![Minor separator](sep-light.svg)
 
 ## License
-Copyright (c) ShadowStrikeHQ
+This project is released under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ![Major separator](sep-heavy.svg)
 
